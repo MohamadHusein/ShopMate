@@ -2,6 +2,7 @@ from django import forms
 from .models import User
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
+from django.core import validators
 
 
 class UserCreationForm(forms.ModelForm):
@@ -15,7 +16,7 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ["phone",]
+        fields = ["phone", ]
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -48,13 +49,22 @@ class UserChangeForm(forms.ModelForm):
 
 
 
-
+def start_with_0(value):
+    if value[0] != '0':
+        raise forms.ValidationError('Number should start with 0')
 
 class LoginForm(forms.Form):
-    phone = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control' , 'placeholder': 'Enter your phone number'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control' , 'placeholder': 'Enter your password'}))
+    phone = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your phone number'}) , validators=[start_with_0])
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Enter your password'}))
 
 
 
-
-
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone')
+        if len(phone) > 11:
+            raise ValidationError('Invalid value : %(value)s is in valid' ,
+                                  code='invalid' ,
+                                  params={'value':f'{phone}'} ,
+            )

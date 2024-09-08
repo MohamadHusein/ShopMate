@@ -14,10 +14,13 @@
                     <form method="post">
                         {% csrf_token %}
                         <div class="control-group">
-                            {% for error in form.phone.errors %}
+                            {% for error in form.non_field_errors %}
                                 <p class="alert alert-danger">{{ error }}</p>
                             {% endfor %}
                             {{ form.phone }}
+                            {% for error in form.phone.errors %}
+                                <p class="alert alert-danger">{{ error }}</p>
+                            {% endfor %}
                             <p class="help-block text-danger"></p>
                         </div>
                         <div class="control-group">
