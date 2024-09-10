@@ -73,3 +73,22 @@ class User(AbstractBaseUser):
         "Is the user a member of staff?"
         # Simplest possible answer: All admins are staff
         return self.is_admin
+
+
+
+
+
+class Otp(models.Model):
+    token = models.CharField(max_length=200 , null=True)
+    phone = models.CharField(max_length=11)
+    code = models.SmallIntegerField()
+    expiration_date = models.DateTimeField(auto_now_add=True)
+
+
+    def __str__(self):
+        return self.phone
+
+
+
+
+

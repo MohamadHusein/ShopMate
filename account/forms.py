@@ -68,3 +68,20 @@ class LoginForm(forms.Form):
                                   code='invalid' ,
                                   params={'value':f'{phone}'} ,
             )
+
+
+
+
+
+
+class RegisterForm(forms.Form):
+    phone = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your phone number'}),
+        validators=[validators.MaxLengthValidator(11)])
+
+
+
+class CheckOtpForm(forms.Form):
+    code = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Enter your phone number'}),
+        validators=[validators.MaxLengthValidator(4)])
