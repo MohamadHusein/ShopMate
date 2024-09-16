@@ -127,6 +127,14 @@ class CheckOtpView(View):
 
 
 
+def user_logout(request):
+    logout(request)
+    return redirect('/')
+
+
+
+
+
 
 
 
