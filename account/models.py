@@ -92,3 +92,18 @@ class Otp(models.Model):
 
 
 
+class Address(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE , related_name='addresses')
+    full_name = models.CharField(max_length=100)
+    email = models.EmailField(blank=True , null=True)
+    phone = models.CharField(max_length=12)
+    address = models.CharField(max_length=500)
+    postal_code = models.CharField(max_length=10)
+
+
+    def __str__(self):
+        return self.user.phone
+
+
+
+
