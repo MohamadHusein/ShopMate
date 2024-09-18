@@ -1,6 +1,6 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import DetailView, View
-
 from account.models import Address
 from .cart_module import Cart
 from product.models import Product
@@ -33,13 +33,13 @@ class CartDeleteView(View):
         return redirect('cart:cart_detail')
 
 
-class OrderDetailView(View):
+class OrderDetailView(LoginRequiredMixin,View):
     def get(self, request, pk):
         order = get_object_or_404(Order, id=pk)
         return render(request, 'cart/order_detail.html', {'order': order})
 
 
-class OrderCreationView(View):
+class OrderCreationView(LoginRequiredMixin,View):
     def get(self, request):
         cart = Cart(request)
         order = Order.objects.create(user=request.user, total_price=cart.total())
@@ -51,7 +51,7 @@ class OrderCreationView(View):
         return redirect('cart:order_detail', order.id)
 
 
-class ApplyDiscountView(View):
+class ApplyDiscountView(LoginRequiredMixin,View):
     def post(self, request, pk):
         code = request.POST.get('discount_code')
         order = get_object_or_404(Order, id=pk)
