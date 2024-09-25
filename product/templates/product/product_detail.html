@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load cache %}
 
 
 
@@ -29,7 +29,9 @@
 
             <div class="col-lg-7 h-auto mb-30">
                 <div class="h-100 bg-light p-30">
+                {% cache 10 pro %}
                     <h3>{{ product.title }}</h3>
+                {% endcache %}
                     <h3 class="font-weight-semi-bold mb-4">${{ product.price }}</h3>
                     <p class="mb-4">{{ product.description }}</p>
                     <div class="d-flex mb-3">
